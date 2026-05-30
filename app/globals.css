@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   Tailwind v4: CSS-first design token config
+   Everything that was in tailwind.config.ts now
+   lives here inside @theme {}
+───────────────────────────────────────────── */
+@theme {
+  /* Colors */
+  --color-bg: #0d0f14;
+  --color-surface: #141720;
+  --color-surface-2: #1a1e2a;
+  --color-surface-3: #1f2436;
+  --color-border: #252b3b;
+  --color-border-2: #2e3550;
+
+  --color-accent-blue: #4f8ef7;
+  --color-accent-cyan: #38d9c0;
+  --color-accent-purple: #a855f7;
+  --color-accent-pink: #f472b6;
+  --color-accent-amber: #f59e0b;
+  --color-accent-red: #ef4444;
+  --color-accent-green: #22c55e;
+  --color-accent-orange: #f97316;
+
+  --color-text-primary: #e8eaf0;
+  --color-text-secondary: #8892a8;
+  --color-text-muted: #4a5270;
+
+  /* Typography */
+  --font-display: "Manrope", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Radii */
+  --radius-card: 16px;
+  --radius-sm: 10px;
+
+  /* Animations — registered with @property for GPU perf */
+  --animate-fade-up: fade-up 0.45s ease-out both;
+  --animate-fade-in: fade-in 0.3s ease-out both;
+  --animate-scale-in: scale-in 0.25s ease-out both;
+  --animate-spin-slow: spin-slow 20s linear infinite;
+  --animate-breathe: breathe 3s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+/* ─────────────────────────────────────────────
+   Global resets & base
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-2);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Selection */
+::selection {
+  background: color-mix(in oklch, var(--color-accent-blue) 30%, transparent);
+  color: var(--color-text-primary);
+}
+
+/* ─────────────────────────────────────────────
+   Keyframes
+───────────────────────────────────────────── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes breathe {
+
+  0%,
+  100% {
+    scale: 1;
+    opacity: .6;
+  }
+
+  50% {
+    scale: 1.05;
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes draw-arc {
+  from {
+    stroke-dashoffset: 600;
+  }
+
+  to {
+    stroke-dashoffset: var(--arc-target);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Custom utilities via @utility (Tailwind v4)
+───────────────────────────────────────────── */
+@utility glass {
+  background: color-mix(in oklch, var(--color-surface-2) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklch, var(--color-border) 80%, transparent);
+}
+
+@utility card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 20px;
+}
+
+@utility gradient-text {
+  background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility gradient-text-warm {
+  background: linear-gradient(135deg, var(--color-accent-amber), var(--color-accent-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility animate-fade-up {
+  animation: var(--animate-fade-up);
+}
+
+@utility animate-fade-in {
+  animation: var(--animate-fade-in);
+}
+
+@utility animate-scale-in {
+  animation: var(--animate-scale-in);
+}
+
+@utility animate-breathe {
+  animation: var(--animate-breathe);
+}
+
+/* Stagger delays */
+@utility stagger-1 {
+  animation-delay: 50ms;
+}
+
+@utility stagger-2 {
+  animation-delay: 100ms;
+}
+
+@utility stagger-3 {
+  animation-delay: 150ms;
+}
+
+@utility stagger-4 {
+  animation-delay: 200ms;
+}
+
+@utility stagger-5 {
+  animation-delay: 250ms;
+}
+
+@utility hover-lift {
+  transition: translate 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    translate: 0 -2px;
+    box-shadow: 0 8px 24px oklch(0 0 0 / 0.3);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Component helpers (not utilities)
+───────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-cyan));
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, translate 0.15s;
+
+  &:hover {
+    opacity: 0.9;
+    translate: 0 -1px;
+  }
+
+  &:active {
+    translate: 0;
+    opacity: 1;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+  &:hover {
+    background: var(--color-surface-3);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-2);
+  }
+}
+
+/* Range input */
+input[type="range"] {
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border);
+  outline: none;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-accent-blue);
+    cursor: pointer;
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 0 6px oklch(from var(--color-accent-blue) l c h / 0.6);
+  }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-accent-blue);
+    cursor: pointer;
+    border: 2px solid var(--color-surface);
+  }
+}
