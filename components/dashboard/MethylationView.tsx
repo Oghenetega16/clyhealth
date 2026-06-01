@@ -88,8 +88,12 @@ export default function MethylationView() {
               <XAxis type="number" domain={[35, 55]} tick={{ fill: "var(--color-text-muted)", fontSize: 10 }} tickLine={false} axisLine={false} />
               <YAxis type="category" dataKey="clock" tick={{ fill: "var(--color-text-secondary)", fontSize: 10 }} tickLine={false} axisLine={false} width={80} />
               <Tooltip
-                formatter={(val: number | string | undefined, name: string) => {
-                  const safeVal = typeof val === "number" ? val : Number(val) || 0;
+                formatter={(val, name) => {
+                  const safeVal = Array.isArray(val)
+                    ? Number(val[0]) || 0
+                    : typeof val === "number"
+                    ? val
+                    : Number(val) || 0;
 
                   return [
                     `${safeVal} yrs`,
