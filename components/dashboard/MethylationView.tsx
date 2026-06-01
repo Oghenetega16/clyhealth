@@ -69,7 +69,7 @@ export default function MethylationView() {
             <motion.div
               className="absolute top-0 w-4 h-4 rounded-full border-2 -translate-y-0.5"
               initial={{ left: "0%" }}
-              animate={{ left: `calc(${methylation.score * 100}% - 8px)` }}
+              animate={{ left: `calc(${Math.min(methylation.score, 1) * 100}% - 8px)` }}
               transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
               style={{ background: color, borderColor: "var(--color-surface-2)" }}
             />
@@ -88,8 +88,20 @@ export default function MethylationView() {
               <XAxis type="number" domain={[35, 55]} tick={{ fill: "var(--color-text-muted)", fontSize: 10 }} tickLine={false} axisLine={false} />
               <YAxis type="category" dataKey="clock" tick={{ fill: "var(--color-text-secondary)", fontSize: 10 }} tickLine={false} axisLine={false} width={80} />
               <Tooltip
-                formatter={(val: number, name: string) => [`${val} yrs`, name === "bioAge" ? "Biological" : "Chronological"]}
-                contentStyle={{ background: "var(--color-surface-3)", border: "1px solid var(--color-border-2)", borderRadius: 8, fontSize: 11 }}
+                formatter={(val: number | string | undefined, name: string) => {
+                  const safeVal = typeof val === "number" ? val : Number(val) || 0;
+
+                  return [
+                    `${safeVal} yrs`,
+                    name === "bioAge" ? "Biological" : "Chronological",
+                  ];
+                }}
+                contentStyle={{
+                  background: "var(--color-surface-3)",
+                  border: "1px solid var(--color-border-2)",
+                  borderRadius: 8,
+                  fontSize: 11,
+                }}
               />
               <Bar dataKey="chronoAge" fill="oklch(from #38d9c0 l c h / 0.3)" radius={[0, 3, 3, 0]} />
               <Bar dataKey="bioAge" fill="oklch(from #4f8ef7 l c h / 0.75)" radius={[0, 3, 3, 0]} />
